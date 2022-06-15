@@ -32,35 +32,35 @@
 ### 프로젝트 흐름 이미지
 
 - 실행 후 접속 화면
-<br><img src="./resultImg/1.PNG" style="border: 1px solid black"></img>
+<br><img src="./resultImg/1.PNG" style="border: 1px solid black;"></img>
 
 - 채팅 중인 화면
-<br><img src="./resultImg/2.PNG" style="border: 1px solid black"></img>
+<br><img src="./resultImg/2.PNG" style="border: 1px solid black;"></img>
 
 - 도움말 기능 화면
-<br><img src="./resultImg/help.PNG" style="border: 1px solid black"></img>
+<br><img src="./resultImg/help.PNG" style="border: 1px solid black;"></img>
 
 - 귓속말 기능 화면
-<br><img src="./resultImg/whisper.PNG" style="border: 1px solid black"></img>
+<br><img src="./resultImg/whisper.PNG" style="border: 1px solid black;"></img>
 
 - 접속 중인 사용자 보는 화면
-<br><img src="./resultImg/people.PNG" style="border: 1px solid black"></img>
+<br><img src="./resultImg/people.PNG" style="border: 1px solid black;"></img>
 
 ---
 
 ### 프로젝트 입력에 대한 예외 처리 이미지
 
 - "/" 만 입력하였을 경우
-<br><img src="./resultImg/incorrect1.png" style="border: 1px solid black"></img>
+<br><img src="./resultImg/incorrect1.png" style="border: 1px solid black;"></img>
 
 - "/" 다음 옳지 않은 입력을 하였을 경우
-<br><img src="./resultImg/incorrect2.png" style="border: 1px solid black"></img>
+<br><img src="./resultImg/incorrect2.png" style="border: 1px solid black;"></img>
 
 - "/to" 다음 옳지 않은 입력을 하였을 경우
-<br><img src="./resultImg/whisperIncorrect.png" style="border: 1px solid black"></img>
+<br><img src="./resultImg/whisperIncorrect.png" style="border: 1px solid black;"></img>
 
 - ID 입력시 공백을 입력하였을 경우
-<br><img src="./resultImg/idEmpty.PNG" style="border: 1px solid black"></img>
+<br><img src="./resultImg/idEmpty.PNG" style="border: 1px solid black;"></img>
 
 - ID가 중복되었을 경우
-<br><img src="./resultImg/idChk.PNG" style="border: 1px solid black"></img>
+<br><img src="./resultImg/idChk.PNG" style="border: 1px solid black;"></img>
