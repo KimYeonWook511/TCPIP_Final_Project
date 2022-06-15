@@ -43,6 +43,7 @@ public class Client2 { // 클라이언트 클래스
 			
 			while (true) {
 				// 입력한 서버IP와 미리 지정해둔 서버 Port(9190)을 사용하여 소켓 연결 요청
+				socket = new Socket();
 				socket.connect(new InetSocketAddress(serverIP, serverPort));
 				writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
 				reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
