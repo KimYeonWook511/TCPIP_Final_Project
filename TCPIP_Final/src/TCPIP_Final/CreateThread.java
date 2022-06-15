@@ -67,25 +67,25 @@ public class CreateThread extends Thread {
 						user.getUserWriter().println("---------------도움말 기능입니다.---------------");
 						user.getUserWriter().println("접속 종료 : /q 혹은 /Q");
 						user.getUserWriter().println("귓속말 : /to 유저아이디 내용");
+						user.getUserWriter().println("현재 접속 중인 인원 : /people");
 						user.getUserWriter().println("-------------------------------------------");
 						user.getUserWriter().flush();
 
 					} else if (input.toUpperCase().equals("/PEOPLE")) {
-						// /people, /PEOPLE 입력 시 현재 접속 중인 인원 수 출력
+						// /people, /PEOPLE 입력 시 현재 접속 중인 인원 수, 아이디 보내줌
 						// 해당 유저에게만 출력
 						user.getUserWriter().println("현재 접속 중인 인원 : " + userList.size());
-						user.getUserWriter().flush();
-
-					} else if (input.toUpperCase().equals("/LIST")) {
-						// 현재 접속 중인 사용자 리스트 츨력
-
+						user.getUserWriter().println("\n------------접속 유저 리스트------------");
+						
 						for (int i = 0; i < userList.size(); i++) {
 							// 전체 사용자 검색
 							// 해당 유저에게만 출력
-							user.getUserWriter().println(userList.get(i).getUserId());
-							user.getUserWriter().flush();
+							user.getUserWriter().println("아이디 : " + userList.get(i).getUserId());
 
 						}
+						
+						user.getUserWriter().flush();
+						
 
 					} else if (input.split(" ")[0].equals("/to")) {
 						// /to 입력시 유저에게 귓속말 기능
@@ -122,6 +122,7 @@ public class CreateThread extends Thread {
 						user.getUserWriter().println("---------------잘못된 입력입니다.---------------");
 						user.getUserWriter().println("접속 종료 : /q 혹은 /Q");
 						user.getUserWriter().println("귓속말 : /to 유저아이디 내용");
+						user.getUserWriter().println("현재 접속 중인 인원 : /people");
 						user.getUserWriter().println("-------------------------------------------");
 						user.getUserWriter().flush();
 

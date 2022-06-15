@@ -46,7 +46,7 @@ public class Client { // 클라이언트 클래스
 			
 			// 입력한 서버IP와 미리 지정해둔 서버 Port(9190)을 사용하여 소켓 연결 요청
 			socket.connect(new InetSocketAddress(serverIP, serverPort));
-			System.out.println("서버에 연결이 완료되었습니다. 연결 종료 (Q or q)");
+			System.out.println("서버에 연결이 완료되었습니다. 연결 종료 (/Q or /q)");
 			
 			PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
 
