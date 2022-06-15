@@ -4,23 +4,23 @@ import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
-public class Server {
+public class Server { // ì„œë²„ í´ë˜ìŠ¤
 	
-	private static ArrayList<UserVO> userList = new ArrayList<UserVO>(); // Á¢¼ÓÇÑ À¯Àúµé ÀÖ´Â ¸®½ºÆ®
-	private static Semaphore sema = new Semaphore(1); // ¼¼¸¶Æ÷¾îÀÌÀÚ, ÀÌÁø ¼¼¸¶Æ÷¾î·Î ¹ÂÅØ½º¿Í °°Àº ±â´É °¡´É | synchronized¿Í mutexÀÇ Â÷ÀÌ´Â?
+	private static ArrayList<UserVO> userList = new ArrayList<UserVO>(); // ì ‘ì†í•œ ìœ ì €ë“¤ ìˆëŠ” ë¦¬ìŠ¤íŠ¸
+	private static Semaphore sema = new Semaphore(1); // ì„¸ë§ˆí¬ì–´ì´ì, ì´ì§„ ì„¸ë§ˆí¬ì–´ë¡œ ë®¤í…ìŠ¤ì™€ ê°™ì€ ê¸°ëŠ¥ ê°€ëŠ¥ | synchronizedì™€ mutexì˜ ì°¨ì´ëŠ”?
 	
 	public static void main(String[] args) {
 	
 		try {
 			
-			ServerSocket serverSocket = new ServerSocket(9190); // ¼­¹ö ¼ÒÄÏ »ı¼º (Æ÷Æ®´Â 9190 °íÁ¤)
+			ServerSocket serverSocket = new ServerSocket(9190); // ì„œë²„ ì†Œì¼“ ìƒì„± (í¬íŠ¸ëŠ” 9190 ê³ ì •)
 			
 			while(true) {
-				System.out.println("ÇöÀç Á¢¼Ó ´ë±â »óÅÂ...");
+				System.out.println("í˜„ì¬ ì ‘ì† ëŒ€ê¸° ìƒíƒœ...");
 				
-				UserVO user = new UserVO(); // Á¢¼ÓÇÑ À¯Àú
+				UserVO user = new UserVO(); // ì ‘ì†í•œ ìœ ì €
 				
-				// ¿¬°á ¿äÃ» ¿Â ¼ÒÄÏ ¼ö¶ô		
+				// ì—°ê²° ìš”ì²­ ì˜¨ ì†Œì¼“ ìˆ˜ë½		
 				user.setUserSocket(serverSocket.accept());
 				
 				CreateThread userThread = new CreateThread(user, userList, sema);
@@ -34,15 +34,15 @@ public class Server {
 	}
 	
 	public static boolean chkUserId(String userId) {
-		// ÇöÀç Áßº¹µÇ´Â ¾ÆÀÌµğ°¡ ÀÖ´ÂÁö È®ÀÎ
+		// í˜„ì¬ ì¤‘ë³µë˜ëŠ” ì•„ì´ë””ê°€ ìˆëŠ”ì§€ í™•ì¸
 		for (int i = 0; i < userList.size(); i++) {
 			
 			if (userList.get(i).getUserId().equals(userId)) {
-				return true; // »ç¿ë ºÒ°¡´É
+				return true; // ì‚¬ìš© ë¶ˆê°€ëŠ¥
 				
 			}			
 		}
 		
-		return false; // »ç¿ë °¡´É
+		return false; // ì‚¬ìš© ê°€ëŠ¥
 	}
 }

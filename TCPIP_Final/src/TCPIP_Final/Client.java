@@ -8,83 +8,86 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Client {
+public class Client { // í´ë¼ì´ì–¸íŠ¸ í´ë˜ìŠ¤
 	
 	public static void main(String[] args) {
 		
 		Socket socket = null;
-		String userId; // Á¢¼ÓÀÚÀÇ ¾ÆÀÌµğ(´Ğ³×ÀÓ)
-		String serverIP; // Á¢¼ÓÇÒ ¼­¹ö IP
-		int serverPort = 9190; // Á¢¼ÓÇÒ ¼­¹ö Port 9190À¸·Î °íÁ¤
+		String userId; // ì ‘ì†ìì˜ ì•„ì´ë””(ë‹‰ë„¤ì„)
+		String serverIP; // ì ‘ì†í•  ì„œë²„ IP
+		final int serverPort = 9190; // ì ‘ì†í•  ì„œë²„ Port 9190ìœ¼ë¡œ ê³ ì •
 		Scanner sc = new Scanner(System.in); 
-		String input; // Á¢¼ÓÀÚÀÇ Ã¤ÆÃ ¸Ş¼¼Áö
+		String input; // ì ‘ì†ìì˜ ì±„íŒ… ë©”ì„¸ì§€
 		
 		try {
 			socket = new Socket();
 			
-			System.out.print("¿¬°áÇÒ ¼­¹ö IP : ");
+			System.out.print("ì—°ê²°í•  ì„œë²„ IP : ");
 			serverIP = sc.nextLine();
 			
 			while (true) {
-				System.out.print("Á¢¼ÓÇÒ ID : ");
+				System.out.print("ì ‘ì†í•  ID : ");
 				userId = sc.nextLine();
 				
 				if (userId.trim().equals("")) {
-					// ID ¹ÌÀÔ·Â X
-					System.out.println("ÇÑ ±ÛÀÚ ÀÌ»ó ÀÔ·ÂÇØ ÁÖ¼¼¿ä.");
+					// ID ë¯¸ì…ë ¥ X
+					System.out.println("í•œ ê¸€ì ì´ìƒ ì…ë ¥í•´ ì£¼ì„¸ìš”.");
 					
 				} else if (Server.chkUserId(userId)) {
-					// ¾ÆÀÌµğ Áßº¹ Ã¼Å© (tureÀÏ ½Ã ¾ÆÀÌµğ Áßº¹)
-					System.out.println("ÀÌ¹Ì Á¸ÀçÇÏ´Â ID ÀÔ´Ï´Ù.");
+					// ì•„ì´ë”” ì¤‘ë³µ ì²´í¬ (tureì¼ ì‹œ ì•„ì´ë”” ì¤‘ë³µ)
+					System.out.println("ì´ë¯¸ ì¡´ì¬í•˜ëŠ” ID ì…ë‹ˆë‹¤.");
 					
 				} else {
-					// Á¢¼Ó °¡´É
+					// ì ‘ì† ê°€ëŠ¥
 					
 					break;
 				}
 			}
 			
+			// ì…ë ¥í•œ ì„œë²„IPì™€ ë¯¸ë¦¬ ì§€ì •í•´ë‘” ì„œë²„ Port(9190)ì„ ì‚¬ìš©í•˜ì—¬ ì†Œì¼“ ì—°ê²° ìš”ì²­
 			socket.connect(new InetSocketAddress(serverIP, serverPort));
-			System.out.println("¼­¹ö¿¡ ¿¬°áÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù. ¿¬°á Á¾·á (Q or q)");
+			System.out.println("ì„œë²„ì— ì—°ê²°ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤. ì—°ê²° ì¢…ë£Œ (Q or q)");
 			
 			PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
 
 			writer.println(userId);
-			writer.flush();
+			writer.flush(); // streamì„ flushí•˜ì—¬ ë²„í¼ë§ë˜ì–´ ì•„ì§ ê¸°ë¡ë˜ì§€ ì•Šì€ ë°ì´í„°ë¥¼ ì¶œë ¥ ìŠ¤íŠ¸ë¦¼ì— ëª¨ë‘ ì¶œë ¥
 			
+			// ReadThread : ì„œë²„ì—ì„œ ì˜¤ëŠ” ë©”ì„¸ì§€ë¥¼ ì¶œë ¥í•˜ëŠ” ì“°ë ˆë“œ
 			ReadThread readThread = new ReadThread(new BufferedReader(new InputStreamReader(socket.getInputStream())));
 			readThread.start();
-			
 			
 			while ((input = sc.nextLine()) != null) {
 				
 				if (input.toUpperCase().equals("/Q")) {
-					// Á¢¼Ó Á¾·á
-					System.out.println("Á¢¼ÓÀ» Á¾·áÇÏ¼Ì½À´Ï´Ù.");
+					// ì ‘ì† ì¢…ë£Œ
+					System.out.println("ì ‘ì†ì„ ì¢…ë£Œí•˜ì…¨ìŠµë‹ˆë‹¤.");
 					
 					writer.println(input);
 					
 					if (writer != null) {
-						// PrintWriter Á¾·á
-						writer.close(); // close ¾È¿¡ flush ³»Àå?????????
+						// PrintWriter ì¢…ë£Œ
+						writer.close(); // close ì•ˆì— flush ë‚´ì¥?????????
 						
 					}
 					if (sc != null) {
-						// Scanner Á¾·á
+						// Scanner ì¢…ë£Œ
 						sc.close();
+						
 					}
 					if (socket != null) {
-						// Socket Á¾·á
+						// Socket ì¢…ë£Œ
 						socket.close();
+						
 					}
 					
 					break;
 					
 				} else if (!input.equals("")) { 
-					// ºóÄ­ ÀÔ·Â ¹æÁö
-					writer.println(input); // ÀÔ·ÂÇÑ ³»¿ëÀ» ¹öÆÛ¿¡ ¿Ã¸² << ????
-					writer.flush(); // ÀÔ·ÂÇÑ ³»¿ëÀ» º¸³»ÁÜ << ????
-					
+					// ë¹ˆì¹¸ ì…ë ¥ ë°©ì§€
+					writer.println(input);
+					writer.flush(); // streamì„ flushí•˜ì—¬ ë²„í¼ë§ë˜ì–´ ì•„ì§ ê¸°ë¡ë˜ì§€ ì•Šì€ ë°ì´í„°ë¥¼ ì¶œë ¥ ìŠ¤íŠ¸ë¦¼ì— ëª¨ë‘ ì¶œë ¥
+					 
 				}
 			}
 			

@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class test {
 	public static void main(String[] args) {
+		// í…ŒìŠ¤íŠ¸ í•˜ëŠ” ì½”ë“œ
 		Scanner sc = new Scanner(System.in);
 		
 		String input = sc.nextLine();
@@ -13,43 +14,43 @@ public class test {
 		System.out.println(input.equals(" "));
 		System.out.println(input.trim().equals(""));
 		
-//		System.out.println("´ë¹®ÀÚ : " + input.toUpperCase());
-//		System.out.println("ÀÔ·Â : " + input);
+//		System.out.println("ëŒ€ë¬¸ì : " + input.toUpperCase());
+//		System.out.println("ì…ë ¥ : " + input);
 //		System.out.println("charAt(0) : " + input.charAt(0));
 //		System.out.println(input.charAt(0) == '/');
-//		System.out.println("ÀÔ·Â : " + input);
+//		System.out.println("ì…ë ¥ : " + input);
 //		System.out.println(input.split("/")[0]);
 //		System.out.println(input.split("/")[1]);
-//		System.out.println("ÀÔ·Â : " + input);
+//		System.out.println("ì…ë ¥ : " + input);
 		
 		if (input.charAt(0) == '/') { 
-			// Ã¹ ÀÔ·ÂÀÌ '/'ÀÏ °æ¿ì Æ¯¼ö±â´É ÀÛµ¿
+			// ì²« ì…ë ¥ì´ '/'ì¼ ê²½ìš° íŠ¹ìˆ˜ê¸°ëŠ¥ ì‘ë™
 			if (input.toUpperCase().equals("/Q")) { 
-				// /q, /Q ÀÔ·Â½Ã Á¢¼Ó Á¾·á 
-				System.out.println("Á¢¼Ó Á¾·á");
+				// /q, /Q ì…ë ¥ì‹œ ì ‘ì† ì¢…ë£Œ 
+				System.out.println("ì ‘ì† ì¢…ë£Œ");
 				
 			} else if (input.equals("/?")) { 
-				// /? ÀÔ·Â½Ã µµ¿ò¸» ±â´É
-				System.out.println("---------------µµ¿ò¸» ±â´ÉÀÔ´Ï´Ù.---------------");
-				System.out.println("Á¢¼Ó Á¾·á : /q È¤Àº /Q");
-				System.out.println("±Ó¼Ó¸» : /to À¯Àú¾ÆÀÌµğ ³»¿ë");
+				// /? ì…ë ¥ì‹œ ë„ì›€ë§ ê¸°ëŠ¥
+				System.out.println("---------------ë„ì›€ë§ ê¸°ëŠ¥ì…ë‹ˆë‹¤.---------------");
+				System.out.println("ì ‘ì† ì¢…ë£Œ : /q í˜¹ì€ /Q");
+				System.out.println("ê·“ì†ë§ : /to ìœ ì €ì•„ì´ë”” ë‚´ìš©");
 				System.out.println("-------------------------------------------");
 				
 			} else if (input.split(" ")[0].equals("/to")) { 
-				// /to ÀÔ·Â½Ã À¯Àú¿¡°Ô ±Ó¼Ó¸» ±â´É
+				// /to ì…ë ¥ì‹œ ìœ ì €ì—ê²Œ ê·“ì†ë§ ê¸°ëŠ¥
 				if (input.split(" ").length >= 3) { 
 					String toUser = input.split(" ")[1];
 					String content = input.split(toUser + " ")[1];
 					
-					// ÀÌÇÏ ±Ó¼Ó¸» Ã³¸®
-					System.out.println("±Ó¼Ó¸» Ã³¸®Áß..");
+					// ì´í•˜ ê·“ì†ë§ ì²˜ë¦¬
+					System.out.println("ê·“ì†ë§ ì²˜ë¦¬ì¤‘..");
 					System.out.println(toUser.equals(""));
 					System.out.println(content);
 					
 					
-				} else { // ±Ó¼Ó¸» ÀÔ·Â Çü½Ä ¹ş¾î³²
-					System.out.println("±Ó¼Ó¸» Çü½Ä¿¡ ¸Â°Ô ÀÔ·ÂÇØ ÁÖ¼¼¿ä.");
-					System.out.println("±Ó¼Ó¸» : /to À¯Àú¾ÆÀÌµğ ³»¿ë");
+				} else { // ê·“ì†ë§ ì…ë ¥ í˜•ì‹ ë²—ì–´ë‚¨
+					System.out.println("ê·“ì†ë§ í˜•ì‹ì— ë§ê²Œ ì…ë ¥í•´ ì£¼ì„¸ìš”.");
+					System.out.println("ê·“ì†ë§ : /to ìœ ì €ì•„ì´ë”” ë‚´ìš©");
 					
 				}	
 			}	
@@ -57,12 +58,12 @@ public class test {
 		
 //		ArrayList<String> list = new ArrayList<String>();
 //		
-//		list.add("1¹ø");
-//		list.add("2¹ø");
-//		list.add("3¹ø");
+//		list.add("1ë²ˆ");
+//		list.add("2ë²ˆ");
+//		list.add("3ë²ˆ");
 //		
 //		System.out.println(list.get(1));
-//		System.out.println(list.remove("2¹ø"));
+//		System.out.println(list.remove("2ë²ˆ"));
 //		System.out.println(list.get(1));
 	}
 }

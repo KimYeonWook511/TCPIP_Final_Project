@@ -5,9 +5,9 @@ import java.net.Socket;
 
 public class UserVO {
 
-	private String userId;
-	private Socket userSocket;
-	private PrintWriter userWriter;
+	private String userId; // 유저 아이디
+	private Socket userSocket; // 유저의 소켓
+	private PrintWriter userWriter; // 유저의 PrintWriter 출력 스트림
 	
 	public String getUserId() {
 		return userId;
@@ -37,12 +37,12 @@ public class UserVO {
 		try {
 			
 			if (userSocket != null) {
-				// Socket ����
+				// Socket 종료
 				userSocket.close();
 				
 			}
 			if (userWriter != null) {
-				// PrintWriter ����
+				// PrintWriter 종료
 				userWriter.close();
 				
 			}
@@ -53,10 +53,11 @@ public class UserVO {
 	}
 	
 	public UserVO() {
-		// TODO Auto-generated constructor stub
+		// 기본 생성자
 	}
+	
 	public UserVO(String userId) {
-		// TODO Auto-generated constructor stub
+		// 생성자 오버라이딩
 		this.userId = userId;
 	}
 }

@@ -8,15 +8,16 @@ import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 public class CreateThread extends Thread {
-	// ¼­¹ö¿¡¼­ »ı¼ºÇÏ´Â ¾²·¹µå
-
+	// ì„œë²„ì—ì„œ ìƒì„±í•˜ëŠ” ì“°ë ˆë“œ
+	// ì‚¬ìš©ìì˜ ì…ë ¥ì„ ë°›ì•„ì˜¤ê³  ì…ë ¥ì— ë”°ë¥¸ ì²˜ë¦¬ë¥¼ ìˆ˜ì‹œë¡œ ë³´ë‚´ì£¼ê¸° ìœ„í•œ ì“°ë ˆë“œ
+	
 	private BufferedReader reader;
-	private UserVO user; // ¹æ±İ Á¢¼ÓÇÑ À¯Àú °´Ã¼
-	private ArrayList<UserVO> userList; // Á¢¼ÓÇÑ À¯ÀúµéÀÇ ¸®½ºÆ®
+	private UserVO user; // ë°©ê¸ˆ ì ‘ì†í•œ ìœ ì € ê°ì²´
+	private ArrayList<UserVO> userList; // ì ‘ì†í•œ ìœ ì €ë“¤ì˜ ë¦¬ìŠ¤íŠ¸
 	private Semaphore sema;
 
 	public CreateThread(UserVO user, ArrayList<UserVO> userList, Semaphore sema) {
-		// »ı¼ºÀÚ
+		// ìƒì„±ì
 		this.user = user;
 		this.userList = userList;
 		this.sema = sema;
@@ -24,16 +25,16 @@ public class CreateThread extends Thread {
 		try {
 			reader = new BufferedReader(new InputStreamReader(user.getUserSocket().getInputStream()));
 
-			user.setUserId(reader.readLine()); // À¯Àú ÀÌ¸§ ÀúÀå
+			user.setUserId(reader.readLine()); // ìœ ì € ì´ë¦„ ì €ì¥
 			user.setUserWriter(new PrintWriter(new OutputStreamWriter(user.getUserSocket().getOutputStream())));
 
-			System.out.println(user.getUserId() + "´ÔÀÌ Á¢¼ÓÇÏ¼Ì½À´Ï´Ù.");
+			System.out.println(user.getUserId() + "ë‹˜ì´ ì ‘ì†í•˜ì…¨ìŠµë‹ˆë‹¤.");
 
-			notify(user.getUserId() + "´ÔÀÌ Á¢¼ÓÇÏ¼Ì½À´Ï´Ù.");
+			sendToAll(user.getUserId() + "ë‹˜ì´ ì ‘ì†í•˜ì…¨ìŠµë‹ˆë‹¤.");
 
-			sema.acquire(); // ¼¼¸¶Æ÷¾î È¹µæ
-			userList.add(user); // À¯Àú Á¤º¸ ¸®½ºÆ®¿¡ Ãß°¡
-			sema.release(); // ¼¼¸¶Æ÷¾î ¹İ³³
+			sema.acquire(); // ì„¸ë§ˆí¬ì–´ íšë“
+			userList.add(user); // ìœ ì € ì •ë³´ ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€
+			sema.release(); // ì„¸ë§ˆí¬ì–´ ë°˜ë‚©
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -43,113 +44,119 @@ public class CreateThread extends Thread {
 
 	@Override
 	public void run() {
-		// ¾²·¹µå ½ÃÀÛ
+		// ì“°ë ˆë“œ ì‹œì‘
 		String input;
 
 		try {
 			while ((input = reader.readLine()) != null) {
 				
 				if (input.charAt(0) == '/') {
-					// Ã¹ ÀÔ·ÂÀÌ '/'ÀÏ °æ¿ì Æ¯¼ö±â´É ÀÛµ¿
+					// ì²« ì…ë ¥ì´ '/'ì¼ ê²½ìš° íŠ¹ìˆ˜ê¸°ëŠ¥ ì‘ë™
 
 					if (input.toUpperCase().equals("/Q")) {
-						// /q, /Q ÀÔ·Â ½Ã Á¢¼Ó Á¾·á
-						System.out.println(user.getUserId() + "´ÔÀÌ Á¢¼ÓÀ» Á¾·áÇÏ¼Ì½À´Ï´Ù.");
+						// /q, /Q ì…ë ¥ ì‹œ ì ‘ì† ì¢…ë£Œ
+						System.out.println(user.getUserId() + "ë‹˜ì´ ì ‘ì†ì„ ì¢…ë£Œí•˜ì…¨ìŠµë‹ˆë‹¤.");
 
-						notify(user.getUserId() + "´ÔÀÌ Á¢¼ÓÀ» Á¾·áÇÏ¼Ì½À´Ï´Ù.");
+						sendToAll(user.getUserId() + "ë‹˜ì´ ì ‘ì†ì„ ì¢…ë£Œí•˜ì…¨ìŠµë‹ˆë‹¤.");
 
 						break;
 
 					} else if (input.equals("/?")) {
-						// /? ÀÔ·Â½Ã µµ¿ò¸» ±â´É
-						user.getUserWriter().println("---------------µµ¿ò¸» ±â´ÉÀÔ´Ï´Ù.---------------");
-						user.getUserWriter().println("Á¢¼Ó Á¾·á : /q È¤Àº /Q");
-						user.getUserWriter().println("±Ó¼Ó¸» : /to À¯Àú¾ÆÀÌµğ ³»¿ë");
+						// /? ì…ë ¥ì‹œ ë„ì›€ë§ ê¸°ëŠ¥
+						// í•´ë‹¹ ìœ ì €ì—ê²Œë§Œ ì¶œë ¥
+						user.getUserWriter().println("---------------ë„ì›€ë§ ê¸°ëŠ¥ì…ë‹ˆë‹¤.---------------");
+						user.getUserWriter().println("ì ‘ì† ì¢…ë£Œ : /q í˜¹ì€ /Q");
+						user.getUserWriter().println("ê·“ì†ë§ : /to ìœ ì €ì•„ì´ë”” ë‚´ìš©");
 						user.getUserWriter().println("-------------------------------------------");
 						user.getUserWriter().flush();
 
 					} else if (input.toUpperCase().equals("/PEOPLE")) {
-						// /people, /PEOPLE ÀÔ·Â ½Ã ÇöÀç Á¢¼Ó ÁßÀÎ ÀÎ¿ø ¼ö Ãâ·Â
-						user.getUserWriter().println("ÇöÀç Á¢¼Ó ÁßÀÎ ÀÎ¿ø : " + userList.size());
+						// /people, /PEOPLE ì…ë ¥ ì‹œ í˜„ì¬ ì ‘ì† ì¤‘ì¸ ì¸ì› ìˆ˜ ì¶œë ¥
+						// í•´ë‹¹ ìœ ì €ì—ê²Œë§Œ ì¶œë ¥
+						user.getUserWriter().println("í˜„ì¬ ì ‘ì† ì¤‘ì¸ ì¸ì› : " + userList.size());
 						user.getUserWriter().flush();
 
 					} else if (input.toUpperCase().equals("/LIST")) {
-						// ÇöÀç Á¢¼Ó ÁßÀÎ »ç¿ëÀÚ ¸®½ºÆ® Ãú·Â
+						// í˜„ì¬ ì ‘ì† ì¤‘ì¸ ì‚¬ìš©ì ë¦¬ìŠ¤íŠ¸ ì¸¨ë ¥
 
 						for (int i = 0; i < userList.size(); i++) {
-							// ÀüÃ¼ »ç¿ëÀÚ °Ë»ö
+							// ì „ì²´ ì‚¬ìš©ì ê²€ìƒ‰
+							// í•´ë‹¹ ìœ ì €ì—ê²Œë§Œ ì¶œë ¥
 							user.getUserWriter().println(userList.get(i).getUserId());
 							user.getUserWriter().flush();
 
 						}
 
 					} else if (input.split(" ")[0].equals("/to")) {
-						// /to ÀÔ·Â½Ã À¯Àú¿¡°Ô ±Ó¼Ó¸» ±â´É
+						// /to ì…ë ¥ì‹œ ìœ ì €ì—ê²Œ ê·“ì†ë§ ê¸°ëŠ¥
 
 						if (input.split(" ").length < 3) {
-							// ±Ó¼Ó¸» ÀÔ·Â Çü½Ä ¹ş¾î³² (/to userid¸¸ ÀÔ·ÂÇÑ °æ¿ì)
-							user.getUserWriter().println("±Ó¼Ó¸» Çü½Ä¿¡ ¸Â°Ô ÀÔ·ÂÇØ ÁÖ¼¼¿ä.");
-							user.getUserWriter().println("±Ó¼Ó¸» : /to À¯Àú¾ÆÀÌµğ ³»¿ë");
+							// ê·“ì†ë§ ì…ë ¥ í˜•ì‹ ë²—ì–´ë‚¨ (/to useridë§Œ ì…ë ¥í•œ ê²½ìš°)
+							// í•´ë‹¹ ìœ ì €ì—ê²Œë§Œ ì¶œë ¥
+							user.getUserWriter().println("ê·“ì†ë§ í˜•ì‹ì— ë§ê²Œ ì…ë ¥í•´ ì£¼ì„¸ìš”.");
+							user.getUserWriter().println("ê·“ì†ë§ : /to ìœ ì €ì•„ì´ë”” ë‚´ìš©");
 							user.getUserWriter().flush();
 
 						} else {
 
 							if (input.split(" ")[1].equals("")) {
-								// ±Ó¼Ó¸» ÀÔ·Â Çü½Ä ¹ş¾î³² (/to userid msg) -> /to´ÙÀ½ ¶ç¾î¾²±â°¡ µÎ °³ ÀÌ»ó ÀÖ´Â °æ¿ì
-								user.getUserWriter().println("±Ó¼Ó¸» Çü½Ä¿¡ ¸Â°Ô ÀÔ·ÂÇØ ÁÖ¼¼¿ä.");
-								user.getUserWriter().println("±Ó¼Ó¸» : /to À¯Àú¾ÆÀÌµğ ³»¿ë");
+								// ê·“ì†ë§ ì…ë ¥ í˜•ì‹ ë²—ì–´ë‚¨ (/to userid msg) -> /toë‹¤ìŒ ë„ì–´ì“°ê¸°ê°€ ë‘ ê°œ ì´ìƒ ìˆëŠ” ê²½ìš°
+								// í•´ë‹¹ ìœ ì €ì—ê²Œë§Œ ì¶œë ¥
+								user.getUserWriter().println("ê·“ì†ë§ í˜•ì‹ì— ë§ê²Œ ì…ë ¥í•´ ì£¼ì„¸ìš”.");
+								user.getUserWriter().println("ê·“ì†ë§ : /to ìœ ì €ì•„ì´ë”” ë‚´ìš©");
 								user.getUserWriter().flush();
 
 							} else {
-								// ±Ó¼Ó¸» ÀÔ·Â Çü½Ä Åë°ú
+								// ê·“ì†ë§ ì…ë ¥ í˜•ì‹ í†µê³¼
 								String toUser = input.split(" ")[1];
 								String msg = input.split(toUser + " ")[1];
 
-								whisper(toUser, msg); // ±Ó¼Ó¸» º¸³»±â
+								whisper(toUser, msg); // ê·“ì†ë§ ë³´ë‚´ê¸°
 							}
 
 						}
 
 					} else {
-						// /ÀÔ·Â ÈÄ Àß¸øµÈ ÀÔ·Â
-						user.getUserWriter().println("---------------Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.---------------");
-						user.getUserWriter().println("Á¢¼Ó Á¾·á : /q È¤Àº /Q");
-						user.getUserWriter().println("±Ó¼Ó¸» : /to À¯Àú¾ÆÀÌµğ ³»¿ë");
+						// "/"ì…ë ¥ í›„ ì˜ëª»ëœ ì…ë ¥
+						// í•´ë‹¹ ìœ ì €ì—ê²Œë§Œ ì¶œë ¥
+						user.getUserWriter().println("---------------ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤.---------------");
+						user.getUserWriter().println("ì ‘ì† ì¢…ë£Œ : /q í˜¹ì€ /Q");
+						user.getUserWriter().println("ê·“ì†ë§ : /to ìœ ì €ì•„ì´ë”” ë‚´ìš©");
 						user.getUserWriter().println("-------------------------------------------");
 						user.getUserWriter().flush();
 
 					}
 
 				} else {
-					// Ã¤ÆÃ º¸³»±â (»ç¿ëÀÚ ÀüºÎ)
-					notify(user.getUserId() + " : " + input);
+					// ì±„íŒ… ë³´ë‚´ê¸° (ì‚¬ìš©ì ì „ë¶€)
+					sendToAll(user.getUserId() + " : " + input);
 
 				}
 
-			} // while¹®ÀÇ ³¡
+			} // whileë¬¸ì˜ ë
 
 		} catch (Exception e) {
 			e.printStackTrace();
 
 		} finally {
-			// ÀÌÇÏ close Ã³¸®
+			// ì´í•˜ close ì²˜ë¦¬
 			try {
 
-				// userList Á¢±Ù Á¦ÇÑ (Ã³¸® Áß¿¡ ¶Ç ´Ù¸¥ ¾²·¹µå°¡ »ç¿ëÇÏ´Â °ÍÀ» ¹æÁö)
-				sema.acquire(); // ¼¼¸¶Æ÷¾î È¹µæ
+				// userList ì ‘ê·¼ ì œí•œ (ì²˜ë¦¬ ì¤‘ì— ë˜ ë‹¤ë¥¸ ì“°ë ˆë“œê°€ ì‚¬ìš©í•˜ëŠ” ê²ƒì„ ë°©ì§€)
+				sema.acquire(); // ì„¸ë§ˆí¬ì–´ íšë“
 				userList.remove(user);
-				sema.release(); // ¼¼¸¶Æ÷¾î ¹İ³³
+				sema.release(); // ì„¸ë§ˆí¬ì–´ ë°˜ë‚©
 
-				user.close(); // À¯ÀúÀÇ Socket, PrintWriter Á¾·á
+				user.close(); // ìœ ì €ì˜ Socket, PrintWriter ì¢…ë£Œ
 
 				if (reader != null) {
-					// BufferedReader Á¾·á
+					// BufferedReader ì¢…ë£Œ
 					reader.close();
 
 				}
 
 			} catch (Exception closeE) {
-				System.out.println("CreateThread¿¡¼­ close ¿À·ù");
+				System.out.println("CreateThreadì—ì„œ close ì˜¤ë¥˜");
 				closeE.printStackTrace();
 
 			}
@@ -157,14 +164,14 @@ public class CreateThread extends Thread {
 		}
 	}
 
-	private void notify(String msg) {
-		// ¼­¹öÀÇ °øÁö»çÇ×
+	private void sendToAll(String msg) {
+		// ì„œë²„ì˜ ê³µì§€ì‚¬í•­
 
 		try {
 
-			sema.acquire(); // ¼¼¸¶Æ÷¾î È¹µæ
+			sema.acquire(); // ì„¸ë§ˆí¬ì–´ íšë“
 			for (int i = 0; i < userList.size(); i++) {
-				// Á¢¼ÓÇØ ÀÖ´Â À¯Àú¿¡°Ô °øÁöÇÏ±â
+				// ì ‘ì†í•´ ìˆëŠ” ìœ ì €ì—ê²Œ ê³µì§€í•˜ê¸°
 				PrintWriter writer = userList.get(i).getUserWriter();
 				if (writer != null) {
 					writer.println(msg);
@@ -172,7 +179,7 @@ public class CreateThread extends Thread {
 				}
 
 			}
-			sema.release(); // ¼¼¸¶Æ÷¾î ¹İ³³
+			sema.release(); // ì„¸ë§ˆí¬ì–´ ë°˜ë‚©
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -183,11 +190,11 @@ public class CreateThread extends Thread {
 	private void whisper(String toUser, String msg) {
 
 		for (int i = 0; i < userList.size(); i++) {
-			// ±Ó¼Ó¸» ´ë»ó Ã£±â
+			// ê·“ì†ë§ ëŒ€ìƒ ì°¾ê¸°
 
 			if (userList.get(i).getUserId().equals(toUser)) {
-				// ±Ó¼Ó¸» ´ë»ó¿¡°Ô ¸Ş¼¼Áö º¸³»±â
-				userList.get(i).getUserWriter().println(user.getUserId() + "(±Ó¼Ó¸») : " + msg);
+				// ê·“ì†ë§ ëŒ€ìƒì—ê²Œ ë©”ì„¸ì§€ ë³´ë‚´ê¸°
+				userList.get(i).getUserWriter().println(user.getUserId() + "(ê·“ì†ë§) : " + msg);
 				userList.get(i).getUserWriter().flush();
 
 			}

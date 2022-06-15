@@ -3,17 +3,19 @@ package TCPIP_Final;
 import java.io.BufferedReader;
 
 public class ReadThread extends Thread {
-	// Å¬¶óÀÌ¾ğÆ®¿¡¼­ »ı¼ºÇÏ´Â ¾²·¹µå
-	private BufferedReader reader; // Á¢¼ÓÇÑ À¯ÀúÀÇ ¹öÆÛ¸®´õ
+	// í´ë¼ì´ì–¸íŠ¸ì—ì„œ ìƒì„±í•˜ëŠ” ì“°ë ˆë“œ
+	// ì„œë²„ê°€ ì‚¬ìš©ìì—ê²Œ ë©”ì‹œì§€ë¥¼ ë³´ë‚¼ ë•Œ í•´ë‹¹ ë©”ì‹œì§€ë¥¼ ìˆ˜ì‹œë¡œ ë°›ì•„ì˜¤ê¸° ìœ„í•œ ì“°ë ˆë“œ
+	
+	private BufferedReader reader; // ì ‘ì†í•œ ìœ ì €ì˜ ë²„í¼ë¦¬ë”
 	
 	public ReadThread(BufferedReader reader) {
-		// »ı¼ºÀÚ
+		// ìƒì„±ì
 		this.reader = reader;
 	}
 	
 	@Override
 	public void run() {
-		// ¾²·¹µå ½ÃÀÛ
+		// ì“°ë ˆë“œ ì‹œì‘
 		String msg;
 		
 		try {
@@ -24,7 +26,7 @@ public class ReadThread extends Thread {
 			reader.close();
 			
 		} catch (Exception e) {
-			System.out.println("Á¤»óÀûÀ¸·Î Á¾·áµÇ¾ú½À´Ï´Ù.");
+			System.out.println("ì •ìƒì ìœ¼ë¡œ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 			
 		} finally {
 			if (reader != null) {
@@ -32,7 +34,7 @@ public class ReadThread extends Thread {
 					reader.close();
 					
 				} catch(Exception closeE) {
-					System.out.println("Á¾·áÁß ¿À·ù");
+					System.out.println("ì¢…ë£Œì¤‘ ì˜¤ë¥˜");
 					closeE.printStackTrace();
 					
 				}
