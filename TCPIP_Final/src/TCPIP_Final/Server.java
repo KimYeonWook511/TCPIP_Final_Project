@@ -33,8 +33,6 @@ public class Server { // 서버 클래스
 				
 				for (int i = 0; i < userList.size(); i++) {
 					// 아이디 중복 검사
-					System.out.println("아이디 중복 검사 : " + userList.size());
-					System.out.println("입력한 아이디 : " + userId);
 					if (userList.get(i).getUserId().equals(userId)) {
 						 // 사용 불가능
 						chkId = "fail";
@@ -60,15 +58,5 @@ public class Server { // 서버 클래스
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	
-	public static boolean chkUserId(String userId) {
-		// 현재 중복되는 아이디가 있는지 확인
-		System.out.println("유저 리스트 사이즈 : " + userList.size());
-		
-		
-		
-		return false; // 사용 가능
 	}
 }
