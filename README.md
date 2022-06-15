@@ -32,29 +32,29 @@
 ### 프로젝트 흐름 이미지
 
 - 실행 후 접속 화면
-<img src="./resultImg/1.PNG"></img>
+<br><img src="./resultImg/1.PNG"></img>
 
 - 채팅 중인 화면
-<img src="./resultImg/2.PNG"></img>
+<br><img src="./resultImg/2.PNG"></img>
 
 - 도움말 기능 화면
-<img src="./resultImg/help.PNG"></img>
+<br><img src="./resultImg/help.PNG"></img>
 
 - 귓속말 기능 화면
-<img src="./resultImg/whisper.PNG"></img>
+<br><img src="./resultImg/whisper.PNG"></img>
 
 - 접속 중인 사용자 보는 화면
-<img src="./resultImg/people.PNG"></img>
+<br><img src="./resultImg/people.PNG"></img>
 
 ---
 
 ### 프로젝트 입력에 대한 예외 처리 이미지
 
 - "/" 만 입력하였을 경우
-<img src="./resultImg/incorrect1.png"></img>
+<br><img src="./resultImg/incorrect1.png"></img>
 
 - "/" 다음 옳지 않은 입력을 하였을 경우
-<img src="./resultImg/incorrect2.png"></img>
+<br><img src="./resultImg/incorrect2.png"></img>
 
 - "/to 
-<img src="./resultImg/whisperIncorrect.png"></img>
+<br><img src="./resultImg/whisperIncorrect.png"></img>
