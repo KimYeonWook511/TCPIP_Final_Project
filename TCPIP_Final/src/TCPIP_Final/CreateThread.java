@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 public class CreateThread extends Thread {
@@ -13,13 +12,11 @@ public class CreateThread extends Thread {
 	
 	private BufferedReader reader;
 	private UserVO user; // 방금 접속한 유저 객체
-	private ArrayList<UserVO> userList; // 접속한 유저들의 리스트
 	private Semaphore sema;
 
-	public CreateThread(UserVO user, ArrayList<UserVO> userList, Semaphore sema) {
+	public CreateThread(UserVO user, Semaphore sema) {
 		// 생성자
 		this.user = user;
-		this.userList = userList;
 		this.sema = sema;
 
 		try {
@@ -33,7 +30,7 @@ public class CreateThread extends Thread {
 			sendToAll(user.getUserId() + "님이 접속하셨습니다.");
 
 			sema.acquire(); // 세마포어 획득
-			userList.add(user); // 유저 정보 리스트에 추가
+			Server.userList.add(user); // 유저 정보 리스트에 추가
 			sema.release(); // 세마포어 반납
 
 		} catch (Exception e) {
@@ -74,13 +71,13 @@ public class CreateThread extends Thread {
 					} else if (input.toUpperCase().equals("/PEOPLE")) {
 						// /people, /PEOPLE 입력 시 현재 접속 중인 인원 수, 아이디 보내줌
 						// 해당 유저에게만 출력
-						user.getUserWriter().println("현재 접속 중인 인원 : " + userList.size());
+						user.getUserWriter().println("현재 접속 중인 인원 : " + Server.userList.size());
 						user.getUserWriter().println("\n------------접속 유저 리스트------------");
 						
-						for (int i = 0; i < userList.size(); i++) {
+						for (int i = 0; i < Server.userList.size(); i++) {
 							// 전체 사용자 검색
 							// 해당 유저에게만 출력
-							user.getUserWriter().println("아이디 : " + userList.get(i).getUserId());
+							user.getUserWriter().println("아이디 : " + Server.userList.get(i).getUserId());
 
 						}
 						
@@ -145,7 +142,7 @@ public class CreateThread extends Thread {
 
 				// userList 접근 제한 (처리 중에 또 다른 쓰레드가 사용하는 것을 방지)
 				sema.acquire(); // 세마포어 획득
-				userList.remove(user);
+				Server.userList.remove(user);
 				sema.release(); // 세마포어 반납
 
 				user.close(); // 유저의 Socket, PrintWriter 종료
@@ -171,9 +168,9 @@ public class CreateThread extends Thread {
 		try {
 
 			sema.acquire(); // 세마포어 획득
-			for (int i = 0; i < userList.size(); i++) {
+			for (int i = 0; i < Server.userList.size(); i++) {
 				// 접속해 있는 유저에게 공지하기
-				PrintWriter writer = userList.get(i).getUserWriter();
+				PrintWriter writer = Server.userList.get(i).getUserWriter();
 				if (writer != null) {
 					writer.println(msg);
 					writer.flush();
@@ -190,13 +187,13 @@ public class CreateThread extends Thread {
 
 	private void whisper(String toUser, String msg) {
 
-		for (int i = 0; i < userList.size(); i++) {
+		for (int i = 0; i < Server.userList.size(); i++) {
 			// 귓속말 대상 찾기
 
-			if (userList.get(i).getUserId().equals(toUser)) {
+			if (Server.userList.get(i).getUserId().equals(toUser)) {
 				// 귓속말 대상에게 메세지 보내기
-				userList.get(i).getUserWriter().println(user.getUserId() + "(귓속말) : " + msg);
-				userList.get(i).getUserWriter().flush();
+				Server.userList.get(i).getUserWriter().println(user.getUserId() + "(귓속말) : " + msg);
+				Server.userList.get(i).getUserWriter().flush();
 
 			}
 		}
