@@ -32,19 +32,19 @@
 ### 프로젝트 흐름 이미지
 
 - 실행 후 접속 화면
-<img src="./resultImg/1.png"></img>
+<img src="./resultImg/1.PNG"></img>
 
 - 채팅 중인 화면
-<img src="./resultImg/2.png"></img>
+<img src="./resultImg/2.PNG"></img>
 
 - 도움말 기능 화면
-<img src="./resultImg/help.png"></img>
+<img src="./resultImg/help.PNG"></img>
 
 - 귓속말 기능 화면
-<img src="./resultImg/whisper.png"></img>
+<img src="./resultImg/whisper.PNG"></img>
 
 - 접속 중인 사용자 보는 화면
-<img src="./resultImg/people.png"></img>
+<img src="./resultImg/people.PNG"></img>
 
 ---
 
@@ -57,3 +57,4 @@
 <img src="./resultImg/incorrect2.png"></img>
 
 - "/to 
+<img src="./resultImg/whisperIncorrect.png"></img>
