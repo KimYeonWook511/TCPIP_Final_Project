@@ -56,5 +56,5 @@
 - "/" 다음 옳지 않은 입력을 하였을 경우
 <br><img src="./resultImg/incorrect2.png"></img>
 
-- "/to 
+- "/to" 다음 옳지 않은 입력을 하였을 
 <br><img src="./resultImg/whisperIncorrect.png"></img>
